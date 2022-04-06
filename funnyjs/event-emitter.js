@@ -48,8 +48,10 @@ const Events = (function() {
     }
 })();
 
-Events.listen( 'squareMeter88', function( price ){ // 小红订阅消息
-    console.log( '价格= ' + price ); // 输出：'价格=2000000'
-});
+export default Events;
 
-Events.trigger( 'squareMeter88', 2000000 ); // 售楼处发布消息
+// Events.listen( 'squareMeter88', function( price ){ // 小红订阅消息
+//     console.log( '价格= ' + price ); // 输出：'价格=2000000'
+// });
+
+// Events.trigger( 'squareMeter88', 2000000 ); // 售楼处发布消息
