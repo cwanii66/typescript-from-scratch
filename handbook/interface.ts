@@ -75,3 +75,145 @@ mySearch = function(source: string, subString: string) {
 //   let result = src.search(sub);
 //   return "string";
 // };
+
+// indexable type
+interface StringArray {
+    [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
+
+interface NumberOrStringDictionary {
+    [index: string]: number | string; // union type
+    length: number; // ok, length is a number
+    name: string; // ok, name is a string
+}
+
+
+// class type
+// same as java, force class to conform to a contract
+interface ClockInterface {
+    currentTime: Date;
+    setTime(d: Date): void;
+}
+class Clock implements ClockInterface {
+    currentTime: Date = new Date();
+    setTime(d: Date) {
+        this.currentTime = d;
+    }
+    constructor(h: number, m: number) {}
+}
+
+interface ClockConstructor {
+    new (hour: number, minute: number): ClockInterface2;
+}
+interface ClockInterface2 {
+    tick(): void;
+}
+
+function createClock(
+    ctor: ClockConstructor,
+    hour: number,
+    minute: number
+): ClockInterface2 {
+    return new ctor(hour, minute);
+}
+
+class DigitalClock implements ClockInterface2 {
+    constructor(h: number, m: number) {}
+    tick() {
+        console.log("beep beep...");
+    }
+}
+
+class AnalogClock implements ClockInterface2 {
+    constructor(h: number, m: number) {}
+    tick() {
+        console.log("tick tick...");
+    }
+}
+
+let digital = createClock(DigitalClock, 12, 17);
+let analog = createClock(AnalogClock, 7, 32);
+/**
+ * 因为createClock的第一个参数是ClockConstructor类型，
+ * 在createClock(AnalogClock, 7, 32)里，
+ * 会检查AnalogClock是否符合构造函数签名。
+ */
+
+// 另一种简单方式是使用类表达式：
+interface ClockConstructor2 {
+    new (hour: number, minute: number);
+}
+interface ClockInterface3 {
+    tick(): unknown;
+}
+
+const Clock2: ClockConstructor2 = class Clock2 implements ClockInterface3 {
+    constructor(h: number, m: number) {}
+    tick() {
+        console.log("beep beep...")
+    }
+};
+
+// inherit interface
+interface Shape {
+    color: string;
+}
+interface PenStroke {
+    penWidth: number;
+}
+interface Square extends Shape, PenStroke {
+    sideLength: number;
+}
+
+let square = {} as Square;
+square.color = "blue";
+square.sideLength = 60;
+square.penWidth = 30.0;
+
+// mixed type
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+function getCounter(): Counter {
+    let counter = function(start: number) {} as Counter;
+    counter.interval = 123;
+    counter.reset = function() {};
+    return counter;
+};
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
+
+
+// interface inherit class
+
+// work at specific subclass has particular properties
+class Control {
+    private state: any;
+}
+
+interface SelectableControl extends Control {
+    select(): void;
+}
+class Button extends Control implements SelectableControl {
+    select() {}
+}
+
+class TextBox extends Control {
+    select() {}
+}
+
+// class ImageControl implements SelectableControl {
+//     private state: any;
+//     select() {}
+// }
+// 只有control的子类才能实现SelectableControl接口
