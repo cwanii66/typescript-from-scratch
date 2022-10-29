@@ -89,6 +89,7 @@ function getBear(): Bear {
   })
 }
 const bear = getBear()
+
 // versus Type
 type Animal_t = {
   name: string
@@ -98,3 +99,48 @@ type Bear_t = Animal_t & {
 }
 
 // Type Assertion
+// const myCanvas = document.getElementById('man_canvas') as HTMLCanvasElement
+// const myCanvas = <HTMLCanvasElement>document.getElementById('main_canvas')
+
+// Literal Types
+
+// by combining literals into unions, you can express a much more useful concept
+function printText(s: string, aligment: 'left' | 'right' | 'center') {
+  // ...
+}
+printText('hello', 'left')
+// printText('hey', 'top')
+function compare1(a: string, b: string): -1 | 0 | 1 {
+  return a === b
+      ? 0
+      : a > b
+        ? 1
+        : -1
+}
+interface Options {
+  width: number
+}
+function configure(x: Options | 'auto') {
+  // ...
+}
+configure({ width: 100 })
+configure('auto')
+// configure('automatic')
+
+// literal inference
+const req = { url: "https://example.com", method: "GET" } as const
+
+/** ------------------ */ console.log('\n\n') /** ------------------ */
+
+// null and undefined
+// Non-null Assertion Operator (Postfix !)
+function liveDangerously(x?: number | null) {
+  // No error
+  console.log(x!.toFixed())
+}
+
+// Enums
+
+// Less Common Primitives
+const oneHundred: bigint = BigInt(100)
+const anotherHundred: bigint = 100n
