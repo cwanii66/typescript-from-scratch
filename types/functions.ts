@@ -131,7 +131,7 @@ function filter2<Type, Func extends (arg: Type) => boolean> (
 function greet1(s: string) {
   console.log(s)
 }
-/** red flag ==> type params are for relating the types of multiple values */
+/** red flag ** ==> type params are for relating the types of multiple values */
 function greet2<Str extends string> (s: Str) {
   console.log(s)
 }
@@ -139,4 +139,81 @@ function greet2<Str extends string> (s: Str) {
 
 
 // Optional Parameters
+declare function f(x?: number): void;
+// f()   f(10) f(undefined) All OK
+
+// Optional Parameters in Callbacks
+function myForEach(arr: any[], callback: (arg: any, index?: number) => void) {
+  for (let i = 0; i < arr.length; i++) {
+    callback(arr[i], i)
+  }
+}
+myForEach([1, 2, 3], (a) => console.log(a))
+myForEach([1, 2, 3], (a, i) => console.log('i: ', i, 'a: ', a))
+
+// Function Overloads
+function makeDate(timestamp: number): Date;
+function makeDate(m: number, d: number, y: number): Date;
+function makeDate(mOrTimestamp: number, d?: number, y?: number): Date {
+  if (d !== undefined && y !== undefined) {
+    return new Date(y, mOrTimestamp, d);
+  } else {
+    return new Date(mOrTimestamp);
+  }
+}
+const d1 = makeDate(12345678);
+const d2 = makeDate(5, 5, 5);
+
+// Writing Good Overloads
+// 很多时候重载很多余，直接用union type就好
+function len(s: string): number;
+function len(arr: any[]): number;
+function len(x: any) {
+  return x.length
+}
+
+// Always prefer parameters with union types instead of overloads when possible
+function len2(x: any[] | string) {
+  return x.length
+}
+
+// Declaring this in a Function
+type User = {
+  id: number
+  admin: boolean
+}
+declare const getDB: () => DB
+interface DB {
+  filterUsers(filter: (this: User) => boolean): User[]
+}
+// const db = getDB()
+// const admins = db.filterUsers(function(this: User) {
+//   return this.admin
+// })
+
+/** ----------- */ console.log('\n\n') /** ----------- */
+
+// Other Types to Know About
+
+// void
+function noop() {
+  return;
+}
+// object
+// The special type object refers to any value that isn't a primitive
+// this is different from the empty object {}, and also different from the global type Object
+// object is not Object. Always use object
+
+// unknown
+// top type
+
+// never
+// exhaustive
+
+// Function
+
+
+// Rest Parameters and Arguments
+
+
 
