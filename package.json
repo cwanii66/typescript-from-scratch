@@ -1,11 +1,10 @@
 {
   "name": "typescript-from-scratch",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     
   },
   "repository": "git@github.com:cwluvani/typescript-from-scratch.git",
-  "author": "cwluvani <wh18710455626@126.com>",
+  "author": "cwanii66 <wh18710455626@126.com>",
   "license": "MIT"
 }
