@@ -215,5 +215,47 @@ function noop() {
 
 // Rest Parameters and Arguments
 
+function multiply(n: number, ...m: number[]) {
+  return m.map(x => n * x)
+}
+// 'a' gets value [10, 20, 30, 40]
+const a = multiply(10, 1, 2, 3, 4);
+Math.atan2(...([1, 2] as const))
 
+type ABC = {
+  a: number
+  b: number
+  c: number
+}
+function sum({ a, b, c}: ABC) { // destructuring syntax
+  console.log(a + b + c)
+}
 
+// Assignability of Functions
+
+// Return type void
+// Contextual typing with a return type of void does not force functions to not return something
+type voidFunc = () => void
+const f1: voidFunc = () => {
+  return true
+}
+const f2: voidFunc = () => true
+const f3: voidFunc = function() {
+  return true
+}
+// And when the return value of one of these functions is assigned to another variable, 
+// it will retain the type of void:
+const v1 = f1();
+const v2 = f2();
+const v3 = f3();
+
+// There is one other special case to be aware of, 
+// when a literal function definition has a void return type, that function must not return anything.
+// function f4(): void {
+//   // @ts-expect-error
+//   return true;
+// }
+// const f5 = function (): void {
+//   // @ts-expect-error
+//   return true;
+// };
