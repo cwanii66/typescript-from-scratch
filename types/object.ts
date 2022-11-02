@@ -151,7 +151,6 @@ type OneOrManyOrNullStrings = OneOrManyOrNull<string>;
 // type OneOrManyOrNullStrings = OneOrMany<string> | null
 
 // The Array Type
-
 interface Array1<Type> {
   /**
    * Gets or sets the length of the array.
